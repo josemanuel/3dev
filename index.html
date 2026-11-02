@@ -18,196 +18,142 @@
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen h-[100dvh] flex flex-col justify-between items-center p-3 sm:p-5 select-none overflow-y-auto overflow-x-hidden">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between items-center p-4 select-none overflow-x-hidden">
 
   <!-- Glow de fondo dinámico -->
   <div id="ambientGlow" class="fixed inset-0 pointer-events-none transition-all duration-700 opacity-20 bg-gradient-to-tr from-purple-950 via-slate-950 to-blue-950"></div>
 
-  <div class="relative z-10 w-full max-w-sm sm:max-w-md flex-1 flex flex-col justify-between my-auto py-1 space-y-3">
+  <div class="relative z-10 w-full max-w-md flex flex-col justify-between my-auto py-2 space-y-4">
     
-    <!-- Encabezado con Selector de Modo -->
-    <header class="text-center flex flex-col items-center">
-      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-purple-400 text-xs font-medium mb-1.5 shadow-sm">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-        <span>Regla de los 3 Parámetros</span>
+    <!-- Encabezado con selector de Modo (Texto / Gráfico) -->
+    <header class="text-center">
+      <div class="flex items-center justify-between mb-2">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-purple-400 text-xs font-medium shadow-sm">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          <span>Triángulo del Desarrollo</span>
+        </div>
+        
+        <!-- Toggle de Vista (Texto / Gráfico) -->
+        <div class="inline-flex bg-slate-900 border border-slate-800 p-1 rounded-full shadow-inner">
+          <button id="btnTextMode" onclick="switchView('text')" class="px-3 py-1 text-xs font-semibold rounded-full transition-all bg-purple-600 text-white shadow">
+            Texto
+          </button>
+          <button id="btnGraphMode" onclick="switchView('graph')" class="px-3 py-1 text-xs font-semibold rounded-full transition-all text-slate-400 hover:text-slate-200">
+            Gráfico
+          </button>
+        </div>
       </div>
-      <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-100">Triángulo del Desarrollo</h1>
-      <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5 max-w-xs">Selecciona 2 características y descubre el resultado inevitable.</p>
-      
-      <!-- Selector de Modo (Texto / Gráfico) -->
-      <div class="mt-3 inline-flex p-1 bg-slate-900 border border-slate-800 rounded-xl shadow-inner">
-        <button id="modeTextBtn" onclick="switchMode('text')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-purple-600 text-white shadow-md">
-          <i data-lucide="list" class="w-3.5 h-3.5"></i>
-          <span>Texto</span>
-        </button>
-        <button id="modeGraphicBtn" onclick="switchMode('graphic')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-slate-400 hover:text-slate-200">
-          <i data-lucide="triangle" class="w-3.5 h-3.5"></i>
-          <span>Gráfico</span>
-        </button>
-      </div>
+      <h1 class="text-2xl font-bold tracking-tight text-slate-100">Paradoja del Software</h1>
+      <p class="text-xs text-slate-400 mt-1">Selecciona máximo 2 características y descubre el resultado inevitable.</p>
     </header>
 
-    <!-- MODO TEXTO: Contenedor de Switches + Resultado -->
-    <div id="textView" class="flex flex-col space-y-3">
-      <!-- Contenedor de Switches -->
-      <main class="space-y-2.5">
-        
-        <!-- Opción 1: Rápido -->
-        <label class="group relative flex items-center justify-between p-3 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all duration-200 cursor-pointer shadow-md active:scale-[0.99]">
-          <input type="checkbox" id="fast" value="fast" class="sr-only peer" onchange="toggleOption('fast')">
-          <div class="flex items-center gap-3">
-            <div class="p-2 rounded-xl bg-pink-500/10 text-pink-400 group-hover:scale-105 transition-transform">
-              <i data-lucide="zap" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-            </div>
-            <div>
-              <div class="font-bold text-slate-200 text-sm sm:text-base">Rápido</div>
-              <div class="text-[10px] sm:text-xs text-slate-400">Entrega en tiempo récord</div>
-            </div>
+    <!-- VISTA 1: MODO TEXTO (Switches) -->
+    <main id="textView" class="space-y-3">
+      
+      <!-- Opción 1: Rápido -->
+      <label class="group relative flex items-center justify-between p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all duration-200 cursor-pointer shadow-md active:scale-[0.99]">
+        <input type="checkbox" id="fast" value="fast" class="sr-only peer" onchange="toggleOption('fast')">
+        <div class="flex items-center gap-3">
+          <div class="p-2 rounded-xl bg-pink-500/10 text-pink-400 group-hover:scale-105 transition-transform">
+            <i data-lucide="zap" class="w-5 h-5"></i>
           </div>
-          <!-- Toggle Switch -->
-          <div class="w-11 h-6 bg-slate-800 rounded-full peer peer-checked:bg-pink-500 peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-3.5 after:right-5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all shadow-inner"></div>
-        </label>
-
-        <!-- Opción 2: Bueno -->
-        <label class="group relative flex items-center justify-between p-3 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all duration-200 cursor-pointer shadow-md active:scale-[0.99]">
-          <input type="checkbox" id="good" value="good" class="sr-only peer" onchange="toggleOption('good')">
-          <div class="flex items-center gap-3">
-            <div class="p-2 rounded-xl bg-blue-500/10 text-blue-400 group-hover:scale-105 transition-transform">
-              <i data-lucide="award" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-            </div>
-            <div>
-              <div class="font-bold text-slate-200 text-sm sm:text-base">Bueno</div>
-              <div class="text-[10px] sm:text-xs text-slate-400">Máxima calidad e innovación</div>
-            </div>
+          <div>
+            <div class="font-bold text-slate-200 text-base">Rápido</div>
+            <div class="text-xs text-slate-400">Entrega en tiempo récord</div>
           </div>
-          <!-- Toggle Switch -->
-          <div class="w-11 h-6 bg-slate-800 rounded-full peer peer-checked:bg-blue-500 peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-3.5 after:right-5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all shadow-inner"></div>
-        </label>
-
-        <!-- Opción 3: Barato -->
-        <label class="group relative flex items-center justify-between p-3 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all duration-200 cursor-pointer shadow-md active:scale-[0.99]">
-          <input type="checkbox" id="cheap" value="cheap" class="sr-only peer" onchange="toggleOption('cheap')">
-          <div class="flex items-center gap-3">
-            <div class="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 group-hover:scale-105 transition-transform">
-              <i data-lucide="piggy-bank" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-            </div>
-            <div>
-              <div class="font-bold text-slate-200 text-sm sm:text-base">Barato</div>
-              <div class="text-[10px] sm:text-xs text-slate-400">Costo mínimo posible</div>
-            </div>
-          </div>
-          <!-- Toggle Switch -->
-          <div class="w-11 h-6 bg-slate-800 rounded-full peer peer-checked:bg-emerald-500 peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-3.5 after:right-5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all shadow-inner"></div>
-        </label>
-
-      </main>
-
-      <!-- Caja de Resultado Diagnóstico (Modo Texto) -->
-      <section id="resultCard" class="p-4 rounded-3xl bg-slate-900/90 border border-slate-800 text-center transition-all duration-300 shadow-xl relative overflow-hidden flex flex-col justify-center items-center min-h-[140px]">
-        <div id="resultIcon" class="w-9 h-9 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 mb-1.5 shadow-inner">
-          <i data-lucide="mouse-pointer-click" class="w-4 h-4"></i>
         </div>
-        <h2 id="resultTitle" class="text-base font-bold text-slate-300">Selecciona 2 opciones</h2>
-        <p id="resultDesc" class="text-[11px] sm:text-xs text-slate-400 mt-0.5 leading-relaxed max-w-[260px]">
-          Elige dos características para conocer la consecuencia de tu proyecto.
-        </p>
-      </section>
-    </div>
+        <!-- Toggle Switch -->
+        <div class="w-12 h-6 bg-slate-800 rounded-full peer peer-checked:bg-pink-500 peer-checked:after:translate-x-6 after:content-[''] after:absolute after:top-3.5 after:right-5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all shadow-inner"></div>
+      </label>
 
-    <!-- MODO GRÁFICO: Triángulo Interactivo SVG -->
-    <div id="graphicView" class="hidden flex flex-col items-center justify-center">
-      <div class="relative w-full max-w-[320px] aspect-square flex items-center justify-center bg-slate-900/60 border border-slate-800/80 rounded-3xl p-3 shadow-2xl backdrop-blur-md">
-        
-        <!-- SVG Triángulo -->
-        <svg viewBox="0 0 300 280" class="w-full h-full overflow-visible">
-          <defs>
-            <!-- Line Gradients -->
-            <linearGradient id="grad-fast-good" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#ec4899" />
-              <stop offset="100%" stop-color="#3b82f6" />
-            </linearGradient>
-            <linearGradient id="grad-good-cheap" x1="100%" y1="0%" x2="50%" y2="100%">
-              <stop offset="0%" stop-color="#3b82f6" />
-              <stop offset="100%" stop-color="#10b981" />
-            </linearGradient>
-            <linearGradient id="grad-cheap-fast" x1="50%" y1="100%" x2="0%" y2="0%">
-              <stop offset="0%" stop-color="#10b981" />
-              <stop offset="100%" stop-color="#ec4899" />
-            </linearGradient>
-          </defs>
+      <!-- Opción 2: Bueno -->
+      <label class="group relative flex items-center justify-between p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all duration-200 cursor-pointer shadow-md active:scale-[0.99]">
+        <input type="checkbox" id="good" value="good" class="sr-only peer" onchange="toggleOption('good')">
+        <div class="flex items-center gap-3">
+          <div class="p-2 rounded-xl bg-blue-500/10 text-blue-400 group-hover:scale-105 transition-transform">
+            <i data-lucide="award" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="font-bold text-slate-200 text-base">Bueno</div>
+            <div class="text-xs text-slate-400">Máxima calidad e innovación</div>
+          </div>
+        </div>
+        <!-- Toggle Switch -->
+        <div class="w-12 h-6 bg-slate-800 rounded-full peer peer-checked:bg-blue-500 peer-checked:after:translate-x-6 after:content-[''] after:absolute after:top-3.5 after:right-5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all shadow-inner"></div>
+      </label>
 
-          <!-- Aristas del Triángulo (Lados clicables) -->
-          <!-- Lado 1: Rápido - Bueno (CARO) -->
-          <line id="edge-fast-good" x1="60" y1="45" x2="240" y2="45" 
-                stroke="#1e293b" stroke-width="6" stroke-linecap="round" 
-                class="cursor-pointer transition-all duration-300 hover:stroke-slate-600"
-                onclick="toggleEdge('fast', 'good')" />
-          
-          <!-- Lado 2: Bueno - Barato (LENTO) -->
-          <line id="edge-good-cheap" x1="240" y1="45" x2="150" y2="225" 
-                stroke="#1e293b" stroke-width="6" stroke-linecap="round" 
-                class="cursor-pointer transition-all duration-300 hover:stroke-slate-600"
-                onclick="toggleEdge('good', 'cheap')" />
+      <!-- Opción 3: Barato -->
+      <label class="group relative flex items-center justify-between p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all duration-200 cursor-pointer shadow-md active:scale-[0.99]">
+        <input type="checkbox" id="cheap" value="cheap" class="sr-only peer" onchange="toggleOption('cheap')">
+        <div class="flex items-center gap-3">
+          <div class="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 group-hover:scale-105 transition-transform">
+            <i data-lucide="piggy-bank" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="font-bold text-slate-200 text-base">Barato</div>
+            <div class="text-xs text-slate-400">Costo mínimo posible</div>
+          </div>
+        </div>
+        <!-- Toggle Switch -->
+        <div class="w-12 h-6 bg-slate-800 rounded-full peer peer-checked:bg-emerald-500 peer-checked:after:translate-x-6 after:content-[''] after:absolute after:top-3.5 after:right-5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all shadow-inner"></div>
+      </label>
 
-          <!-- Lado 3: Barato - Rápido (MALO) -->
-          <line id="edge-cheap-fast" x1="150" y1="225" x2="60" y2="45" 
-                stroke="#1e293b" stroke-width="6" stroke-linecap="round" 
-                class="cursor-pointer transition-all duration-300 hover:stroke-slate-600"
-                onclick="toggleEdge('cheap', 'fast')" />
+    </main>
 
-          <!-- Vértices (Nodos Clicables) -->
+    <!-- VISTA 2: MODO GRÁFICO (Triángulo Interactivo) -->
+    <main id="graphView" class="hidden flex flex-col items-center justify-center p-2 bg-slate-900/50 border border-slate-800/80 rounded-3xl relative">
+      <div class="relative w-full max-w-[280px] h-[240px] flex items-center justify-center">
+        <svg viewBox="0 0 300 270" class="w-full h-full drop-shadow-lg">
+          <!-- Conexiones / Lados del Triángulo -->
+          <!-- Lado Rápido - Bueno (Superior) -->
+          <line id="line_fast_good" x1="150" y1="35" x2="45" y2="215" stroke="#334155" stroke-width="6" stroke-linecap="round" class="transition-all duration-300 cursor-pointer hover:stroke-slate-400" onclick="toggleSide('fast', 'good')" />
+          <!-- Lado Bueno - Barato (Inferior) -->
+          <line id="line_good_cheap" x1="45" y1="215" x2="255" y2="215" stroke="#334155" stroke-width="6" stroke-linecap="round" class="transition-all duration-300 cursor-pointer hover:stroke-slate-400" onclick="toggleSide('good', 'cheap')" />
+          <!-- Lado Barato - Rápido (Derecho) -->
+          <line id="line_cheap_fast" x1="255" y1="215" x2="150" y2="35" stroke="#334155" stroke-width="6" stroke-linecap="round" class="transition-all duration-300 cursor-pointer hover:stroke-slate-400" onclick="toggleSide('cheap', 'fast')" />
 
-          <!-- Nodo Vértice Superior Izquierdo: RÁPIDO -->
-          <g id="node-fast" onclick="toggleOption('fast')" class="cursor-pointer group">
-            <circle id="node-circle-fast" cx="60" cy="45" r="22" fill="#0f172a" stroke="#334155" stroke-width="3" class="transition-all duration-300 group-hover:scale-110" />
-            <circle cx="60" cy="45" r="14" fill="#ec4899" fill-opacity="0.15" />
-            <foreignObject x="46" y="31" width="28" height="28">
-              <div class="w-full h-full flex items-center justify-center text-pink-400">
-                <i data-lucide="zap" class="w-4 h-4"></i>
-              </div>
-            </foreignObject>
-            <text x="60" y="14" text-anchor="middle" fill="#f1f5f9" class="text-[11px] font-bold">Rápido</text>
+          <!-- Vértice 1: Rápido (Superior) -->
+          <g transform="translate(150, 35)" class="cursor-pointer" onclick="toggleOption('fast')">
+            <circle id="node_fast" r="28" class="fill-slate-900 stroke-slate-700 transition-all duration-300" stroke-width="4"></circle>
+            <text x="0" y="5" text-anchor="middle" class="fill-slate-200 text-xs font-bold pointer-events-none">RÁPIDO</text>
           </g>
 
-          <!-- Nodo Vértice Superior Derecho: BUENO -->
-          <g id="node-good" onclick="toggleOption('good')" class="cursor-pointer group">
-            <circle id="node-circle-good" cx="240" cy="45" r="22" fill="#0f172a" stroke="#334155" stroke-width="3" class="transition-all duration-300 group-hover:scale-110" />
-            <circle cx="240" cy="45" r="14" fill="#3b82f6" fill-opacity="0.15" />
-            <foreignObject x="226" y="31" width="28" height="28">
-              <div class="w-full h-full flex items-center justify-center text-blue-400">
-                <i data-lucide="award" class="w-4 h-4"></i>
-              </div>
-            </foreignObject>
-            <text x="240" y="14" text-anchor="middle" fill="#f1f5f9" class="text-[11px] font-bold">Bueno</text>
+          <!-- Vértice 2: Bueno (Inferior Izquierda) -->
+          <g transform="translate(45, 215)" class="cursor-pointer" onclick="toggleOption('good')">
+            <circle id="node_good" r="28" class="fill-slate-900 stroke-slate-700 transition-all duration-300" stroke-width="4"></circle>
+            <text x="0" y="5" text-anchor="middle" class="fill-slate-200 text-xs font-bold pointer-events-none">BUENO</text>
           </g>
 
-          <!-- Nodo Vértice Inferior: BARATO -->
-          <g id="node-cheap" onclick="toggleOption('cheap')" class="cursor-pointer group">
-            <circle id="node-circle-cheap" cx="150" cy="225" r="22" fill="#0f172a" stroke="#334155" stroke-width="3" class="transition-all duration-300 group-hover:scale-110" />
-            <circle cx="150" cy="225" r="14" fill="#10b981" fill-opacity="0.15" />
-            <foreignObject x="136" y="211" width="28" height="28">
-              <div class="w-full h-full flex items-center justify-center text-emerald-400">
-                <i data-lucide="piggy-bank" class="w-4 h-4"></i>
-              </div>
-            </foreignObject>
-            <text x="150" y="262" text-anchor="middle" fill="#f1f5f9" class="text-[11px] font-bold">Barato</text>
+          <!-- Vértice 3: Barato (Inferior Derecha) -->
+          <g transform="translate(255, 215)" class="cursor-pointer" onclick="toggleOption('cheap')">
+            <circle id="node_cheap" r="28" class="fill-slate-900 stroke-slate-700 transition-all duration-300" stroke-width="4"></circle>
+            <text x="0" y="5" text-anchor="middle" class="fill-slate-200 text-xs font-bold pointer-events-none">BARATO</text>
           </g>
         </svg>
 
-        <!-- Resultado Integrado en el Centro del Triángulo -->
-        <div id="graphicResultCentral" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none p-6 text-center">
-          <div id="graphicIconBox" class="w-9 h-9 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center mb-1 shadow-inner transition-all duration-300">
-            <i id="graphicIcon" data-lucide="mouse-pointer-click" class="w-4 h-4"></i>
+        <!-- Centro del Triángulo: Resultado integrado -->
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div class="text-center px-3 py-2 max-w-[110px]">
+            <span id="centerBadge" class="text-[10px] tracking-widest uppercase font-black text-slate-400 bg-slate-950/80 px-2 py-1 rounded-full border border-slate-800 shadow">Selecciona 2</span>
           </div>
-          <h3 id="graphicTitle" class="text-sm font-bold text-slate-300 transition-all duration-300">Selecciona 2</h3>
-          <p id="graphicDesc" class="text-[10px] text-slate-400 leading-tight max-w-[140px] mt-0.5">Toca 2 vértices o un lado</p>
         </div>
-
       </div>
-    </div>
+      <p class="text-[11px] text-slate-400 mt-1 mb-1 text-center">Toca los vértices o los lados del triángulo</p>
+    </main>
+
+    <!-- Caja de Resultado Diagnóstico -->
+    <section id="resultCard" class="p-5 rounded-3xl bg-slate-900/90 border border-slate-800 text-center transition-all duration-300 shadow-xl relative overflow-hidden flex flex-col justify-center items-center min-h-[160px]">
+      <div id="resultIcon" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 mb-2 shadow-inner">
+        <i data-lucide="mouse-pointer-click" class="w-5 h-5"></i>
+      </div>
+      <h2 id="resultTitle" class="text-lg font-bold text-slate-300">Selecciona 2 opciones</h2>
+      <p id="resultDesc" class="text-xs text-slate-400 mt-1 leading-relaxed max-w-[280px]">
+        Elige dos características para conocer la consecuencia de tu proyecto.
+      </p>
+    </section>
 
     <!-- Footer -->
-    <footer class="text-center text-[10px] text-slate-500 pt-0.5">
+    <footer class="text-center text-xs text-slate-500 pt-1">
       Triángulo del desarrollo &copy; Paradoja del Software
     </footer>
 
@@ -219,11 +165,10 @@
 
     // Cola de opciones activas (máximo 2)
     let selectedQueue = [];
-    let currentMode = 'text'; // 'text' o 'graphic'
+    let currentView = 'text';
 
     // Mapeo de resultados
     const outcomes = {
-      // Barato + Rápido = MALO
       'cheap,fast': {
         title: 'MALO',
         desc: 'Al requerir rapidez y bajo costo, el código resultante será propenso a errores y poco sostenible.',
@@ -231,10 +176,9 @@
         colorClass: 'text-rose-400',
         bgClass: 'bg-rose-500/10',
         borderClass: 'border-rose-500/30',
-        nodeStroke: '#f43f5e',
-        glow: 'from-rose-950 via-slate-950 to-slate-950'
+        glow: 'from-rose-950 via-slate-950 to-slate-950',
+        hex: '#fb7185'
       },
-      // Bueno + Rápido = CARO
       'fast,good': {
         title: 'CARO',
         desc: 'Para ofrecer máxima calidad en tiempo récord, requerirá más recursos, talento senior y presupuesto alto.',
@@ -242,10 +186,9 @@
         colorClass: 'text-amber-400',
         bgClass: 'bg-amber-500/10',
         borderClass: 'border-amber-500/30',
-        nodeStroke: '#f59e0b',
-        glow: 'from-amber-950 via-slate-950 to-slate-950'
+        glow: 'from-amber-950 via-slate-950 to-slate-950',
+        hex: '#fbbf24'
       },
-      // Barato + Bueno = LENTO
       'cheap,good': {
         title: 'LENTO',
         desc: 'Un producto excelente a bajo precio tomará mucho más tiempo de desarrollo en completarse.',
@@ -253,211 +196,181 @@
         colorClass: 'text-sky-400',
         bgClass: 'bg-sky-500/10',
         borderClass: 'border-sky-500/30',
-        nodeStroke: '#06b6d4',
-        glow: 'from-sky-950 via-slate-950 to-slate-950'
+        glow: 'from-sky-950 via-slate-950 to-slate-950',
+        hex: '#38bdf8'
       }
     };
 
-    function switchMode(mode) {
-      currentMode = mode;
-      const textBtn = document.getElementById('modeTextBtn');
-      const graphicBtn = document.getElementById('modeGraphicBtn');
+    function switchView(view) {
+      currentView = view;
       const textView = document.getElementById('textView');
-      const graphicView = document.getElementById('graphicView');
+      const graphView = document.getElementById('graphView');
+      const btnText = document.getElementById('btnTextMode');
+      const btnGraph = document.getElementById('btnGraphMode');
 
-      if (mode === 'text') {
-        textBtn.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-purple-600 text-white shadow-md";
-        graphicBtn.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-slate-400 hover:text-slate-200";
+      if (view === 'text') {
         textView.classList.remove('hidden');
-        graphicView.classList.add('hidden');
+        graphView.classList.add('hidden');
+        btnText.className = "px-3 py-1 text-xs font-semibold rounded-full transition-all bg-purple-600 text-white shadow";
+        btnGraph.className = "px-3 py-1 text-xs font-semibold rounded-full transition-all text-slate-400 hover:text-slate-200";
       } else {
-        graphicBtn.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-purple-600 text-white shadow-md";
-        textBtn.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-slate-400 hover:text-slate-200";
-        graphicView.classList.remove('hidden');
         textView.classList.add('hidden');
+        graphView.classList.remove('hidden');
+        btnGraph.className = "px-3 py-1 text-xs font-semibold rounded-full transition-all bg-purple-600 text-white shadow";
+        btnText.className = "px-3 py-1 text-xs font-semibold rounded-full transition-all text-slate-400 hover:text-slate-200";
       }
-      updateUI();
     }
 
     function toggleOption(id) {
       const checkbox = document.getElementById(id);
       
-      const isSelected = selectedQueue.includes(id);
-
-      if (!isSelected) {
-        selectedQueue.push(id);
-        if (selectedQueue.length > 2) {
-          const removedId = selectedQueue.shift();
-          const removedCb = document.getElementById(removedId);
-          if (removedCb) removedCb.checked = false;
-        }
-        if (checkbox) checkbox.checked = true;
-      } else {
+      if (selectedQueue.includes(id)) {
         selectedQueue = selectedQueue.filter(item => item !== id);
         if (checkbox) checkbox.checked = false;
+      } else {
+        selectedQueue.push(id);
+        if (checkbox) checkbox.checked = true;
+        // Regla de máximo 2 (FIFO)
+        if (selectedQueue.length > 2) {
+          const removedId = selectedQueue.shift();
+          const remCheckbox = document.getElementById(removedId);
+          if (remCheckbox) remCheckbox.checked = false;
+        }
       }
 
       updateUI();
     }
 
-    // Permite activar un par de opciones directamente pulsando en el lado del triángulo
-    function toggleEdge(optA, optB) {
-      selectedQueue = [optA, optB];
+    // Permite seleccionar directamente un lado del triángulo (activa sus dos vértices)
+    function toggleSide(id1, id2) {
+      selectedQueue = [id1, id2];
+      
+      // Actualizar checkboxes de texto
       ['fast', 'good', 'cheap'].forEach(id => {
         const cb = document.getElementById(id);
         if (cb) cb.checked = selectedQueue.includes(id);
       });
+
       updateUI();
     }
 
     function updateUI() {
-      // 1. Sincronizar checkboxes de modo texto
+      // Sincronizar estados de checkboxes visuales en modo texto
       ['fast', 'good', 'cheap'].forEach(id => {
         const cb = document.getElementById(id);
         if (cb) cb.checked = selectedQueue.includes(id);
       });
 
-      // 2. Sincronizar nodos y lados del triángulo SVG
-      const nodeColors = { fast: '#ec4899', good: '#3b82f6', cheap: '#10b981' };
-      
+      // Sincronizar nodos del triángulo gráfico SVG
       ['fast', 'good', 'cheap'].forEach(id => {
-        const nodeCircle = document.getElementById(`node-circle-${id}`);
-        if (nodeCircle) {
+        const node = document.getElementById(`node_${id}`);
+        if (node) {
           if (selectedQueue.includes(id)) {
-            nodeCircle.setAttribute('stroke', nodeColors[id]);
-            nodeCircle.setAttribute('stroke-width', '4');
-            nodeCircle.setAttribute('fill', '#1e293b');
+            node.setAttribute('class', 'fill-purple-600/30 stroke-purple-400 transition-all duration-300');
           } else {
-            nodeCircle.setAttribute('stroke', '#334155');
-            nodeCircle.setAttribute('stroke-width', '3');
-            nodeCircle.setAttribute('fill', '#0f172a');
+            node.setAttribute('class', 'fill-slate-900 stroke-slate-700 transition-all duration-300');
           }
         }
       });
 
-      // Sincronizar las 3 aristas
-      const edgeFG = document.getElementById('edge-fast-good');
-      const edgeGC = document.getElementById('edge-good-cheap');
-      const edgeCF = document.getElementById('edge-cheap-fast');
+      // Sincronizar líneas del triángulo
+      const lines = {
+        'fast,good': document.getElementById('line_fast_good'),
+        'good,cheap': document.getElementById('line_good_cheap'),
+        'cheap,fast': document.getElementById('line_cheap_fast')
+      };
 
-      const hasFast = selectedQueue.includes('fast');
-      const hasGood = selectedQueue.includes('good');
-      const hasCheap = selectedQueue.includes('cheap');
-
-      if (edgeFG) {
-        if (hasFast && hasGood) {
-          edgeFG.setAttribute('stroke', 'url(#grad-fast-good)');
-          edgeFG.setAttribute('stroke-width', '8');
-        } else {
-          edgeFG.setAttribute('stroke', '#1e293b');
-          edgeFG.setAttribute('stroke-width', '6');
+      Object.keys(lines).forEach(pairKey => {
+        const line = lines[pairKey];
+        if (line) {
+          const [a, b] = pairKey.split(',');
+          const isSelected = selectedQueue.includes(a) && selectedQueue.includes(b) && selectedQueue.length === 2;
+          if (isSelected) {
+            const sortedKey = [...selectedQueue].sort().join(',');
+            const res = outcomes[sortedKey];
+            line.setAttribute('stroke', res ? res.hex : '#a855f7');
+            line.setAttribute('stroke-width', '8');
+          } else {
+            line.setAttribute('stroke', '#334155');
+            line.setAttribute('stroke-width', '6');
+          }
         }
-      }
+      });
 
-      if (edgeGC) {
-        if (hasGood && hasCheap) {
-          edgeGC.setAttribute('stroke', 'url(#grad-good-cheap)');
-          edgeGC.setAttribute('stroke-width', '8');
-        } else {
-          edgeGC.setAttribute('stroke', '#1e293b');
-          edgeGC.setAttribute('stroke-width', '6');
-        }
-      }
-
-      if (edgeCF) {
-        if (hasCheap && hasFast) {
-          edgeCF.setAttribute('stroke', 'url(#grad-cheap-fast)');
-          edgeCF.setAttribute('stroke-width', '8');
-        } else {
-          edgeCF.setAttribute('stroke', '#1e293b');
-          edgeCF.setAttribute('stroke-width', '6');
-        }
-      }
-
-      // 3. Actualizar paneles de resultados
       const card = document.getElementById('resultCard');
       const iconContainer = document.getElementById('resultIcon');
       const title = document.getElementById('resultTitle');
       const desc = document.getElementById('resultDesc');
       const glow = document.getElementById('ambientGlow');
+      const centerBadge = document.getElementById('centerBadge');
 
-      // Elementos vista gráfica
-      const gTitle = document.getElementById('graphicTitle');
-      const gDesc = document.getElementById('graphicDesc');
-      const gIconBox = document.getElementById('graphicIconBox');
-
+      // Si tenemos exactamente 2 opciones seleccionadas
       if (selectedQueue.length === 2) {
         const key = [...selectedQueue].sort().join(',');
         const result = outcomes[key];
 
         if (result) {
-          // Vista Texto
           title.textContent = result.title;
           title.className = `text-xl font-black tracking-wide ${result.colorClass}`;
+          
           desc.textContent = result.desc;
-          desc.className = "text-[11px] sm:text-xs text-slate-300 mt-0.5 leading-relaxed max-w-[260px]";
+          desc.className = "text-xs text-slate-300 mt-1 leading-relaxed max-w-[280px]";
 
-          iconContainer.className = `w-9 h-9 rounded-full flex items-center justify-center ${result.bgClass} ${result.colorClass} mb-1.5 shadow-inner`;
-          iconContainer.innerHTML = `<i data-lucide="${result.icon}" class="w-4 h-4"></i>`;
+          iconContainer.className = `w-10 h-10 rounded-full flex items-center justify-center ${result.bgClass} ${result.colorClass} mb-2 shadow-inner`;
+          iconContainer.innerHTML = `<i data-lucide="${result.icon}" class="w-5 h-5"></i>`;
 
-          card.className = `p-4 rounded-3xl bg-slate-900/90 border ${result.borderClass} text-center transition-all duration-300 shadow-2xl relative overflow-hidden flex flex-col justify-center items-center min-h-[140px]`;
-
-          // Vista Gráfica
-          gTitle.textContent = result.title;
-          gTitle.className = `text-base font-black tracking-wide ${result.colorClass}`;
-          gDesc.textContent = result.desc;
-          gDesc.className = "text-[10px] text-slate-300 leading-tight max-w-[150px] mt-0.5";
-          gIconBox.className = `w-9 h-9 rounded-full flex items-center justify-center ${result.bgClass} ${result.colorClass} mb-1 shadow-inner`;
-          gIconBox.innerHTML = `<i data-lucide="${result.icon}" class="w-4 h-4"></i>`;
+          card.className = `p-5 rounded-3xl bg-slate-900/90 border ${result.borderClass} text-center transition-all duration-300 shadow-2xl relative overflow-hidden flex flex-col justify-center items-center min-h-[160px]`;
 
           glow.className = `fixed inset-0 pointer-events-none transition-all duration-700 opacity-40 bg-gradient-to-tr ${result.glow}`;
+
+          if (centerBadge) {
+            centerBadge.textContent = result.title;
+            centerBadge.className = `text-xs tracking-widest uppercase font-black px-2.5 py-1 rounded-full border shadow ${result.colorClass} ${result.bgClass} ${result.borderClass}`;
+          }
         }
       } 
+      // Si hay solo 1 opción seleccionada
       else if (selectedQueue.length === 1) {
-        // Vista Texto
         title.textContent = 'Selecciona 1 más';
-        title.className = 'text-base font-bold text-slate-300';
-        desc.textContent = 'Elige una segunda opción para completar la combinación.';
-        desc.className = "text-[11px] sm:text-xs text-slate-400 mt-0.5 leading-relaxed max-w-[260px]";
+        title.className = 'text-lg font-bold text-slate-300';
+        
+        desc.textContent = 'Elige una segunda opción para completar la combinación de desarrollo.';
+        desc.className = "text-xs text-slate-400 mt-1 leading-relaxed max-w-[280px]";
 
-        iconContainer.className = 'w-9 h-9 rounded-full flex items-center justify-center bg-purple-500/10 text-purple-400 mb-1.5 shadow-inner';
-        iconContainer.innerHTML = `<i data-lucide="plus-circle" class="w-4 h-4"></i>`;
+        iconContainer.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-purple-500/10 text-purple-400 mb-2 shadow-inner';
+        iconContainer.innerHTML = `<i data-lucide="plus-circle" class="w-5 h-5"></i>`;
 
-        card.className = 'p-4 rounded-3xl bg-slate-900/90 border border-purple-500/20 text-center transition-all duration-300 shadow-xl relative overflow-hidden flex flex-col justify-center items-center min-h-[140px]';
-
-        // Vista Gráfica
-        gTitle.textContent = 'Falta 1 opción';
-        gTitle.className = 'text-xs font-bold text-purple-300';
-        gDesc.textContent = 'Toca otro vértice';
-        gDesc.className = "text-[10px] text-slate-400 leading-tight max-w-[140px] mt-0.5";
-        gIconBox.className = 'w-8 h-8 rounded-full flex items-center justify-center bg-purple-500/10 text-purple-400 mb-1 shadow-inner';
-        gIconBox.innerHTML = `<i data-lucide="plus-circle" class="w-4 h-4"></i>`;
+        card.className = 'p-5 rounded-3xl bg-slate-900/90 border border-purple-500/20 text-center transition-all duration-300 shadow-xl relative overflow-hidden flex flex-col justify-center items-center min-h-[160px]';
 
         glow.className = 'fixed inset-0 pointer-events-none transition-all duration-700 opacity-20 bg-gradient-to-tr from-purple-950 via-slate-950 to-blue-950';
+
+        if (centerBadge) {
+          centerBadge.textContent = '+ 1 MÁS';
+          centerBadge.className = 'text-[10px] tracking-widest uppercase font-black text-purple-400 bg-purple-950/80 px-2 py-1 rounded-full border border-purple-800/50 shadow';
+        }
       } 
+      // 0 opciones seleccionadas
       else {
-        // Vista Texto
         title.textContent = 'Selecciona 2 opciones';
-        title.className = 'text-base font-bold text-slate-300';
+        title.className = 'text-lg font-bold text-slate-300';
+        
         desc.textContent = 'Elige dos características para conocer la consecuencia de tu proyecto.';
-        desc.className = "text-[11px] sm:text-xs text-slate-400 mt-0.5 leading-relaxed max-w-[260px]";
+        desc.className = "text-xs text-slate-400 mt-1 leading-relaxed max-w-[280px]";
 
-        iconContainer.className = 'w-9 h-9 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 mb-1.5 shadow-inner';
-        iconContainer.innerHTML = `<i data-lucide="mouse-pointer-click" class="w-4 h-4"></i>`;
+        iconContainer.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 mb-2 shadow-inner';
+        iconContainer.innerHTML = `<i data-lucide="mouse-pointer-click" class="w-5 h-5"></i>`;
 
-        card.className = 'p-4 rounded-3xl bg-slate-900/90 border border-slate-800 text-center transition-all duration-300 shadow-xl relative overflow-hidden flex flex-col justify-center items-center min-h-[140px]';
-
-        // Vista Gráfica
-        gTitle.textContent = 'Selecciona 2';
-        gTitle.className = 'text-xs font-bold text-slate-300';
-        gDesc.textContent = 'Toca 2 vértices o un lado';
-        gDesc.className = "text-[10px] text-slate-400 leading-tight max-w-[140px] mt-0.5";
-        gIconBox.className = 'w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 mb-1 shadow-inner';
-        gIconBox.innerHTML = `<i data-lucide="mouse-pointer-click" class="w-4 h-4"></i>`;
+        card.className = 'p-5 rounded-3xl bg-slate-900/90 border border-slate-800 text-center transition-all duration-300 shadow-xl relative overflow-hidden flex flex-col justify-center items-center min-h-[160px]';
 
         glow.className = 'fixed inset-0 pointer-events-none transition-all duration-700 opacity-20 bg-gradient-to-tr from-purple-950 via-slate-950 to-blue-950';
+
+        if (centerBadge) {
+          centerBadge.textContent = 'TRIÁNGULO';
+          centerBadge.className = 'text-[10px] tracking-widest uppercase font-black text-slate-400 bg-slate-950/80 px-2 py-1 rounded-full border border-slate-800 shadow';
+        }
       }
 
+      // Re-renderizar iconos dinámicos
       lucide.createIcons();
     }
   </script>
