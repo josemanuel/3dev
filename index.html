@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Paradoja del Desarrollo</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Tailwind Custom Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        fast: '#ec4899',   // Pink 500
+                        good: '#3b82f6',   // Blue 500
+                        cheap: '#10b981',  // Emerald 500
+                    },
+                    keyframes: {
+                        pop: {
+                            '0%': { transform: 'scale(0.95)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                        bounceSlow: {
+                            '0%, 100%': { transform: 'translateY(-3%)' },
+                            '50%': { transform: 'translateY(0)' },
+                        }
+                    },
+                    animation: {
+                        pop: 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                        bounceSlow: 'bounceSlow 3s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center justify-center p-4 selection:bg-indigo-500 selection:text-white">
+
+    <!-- Background glow effect -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+        <div id="bg-glow-1" class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-indigo-600/20 rounded-full blur-[120px] transition-all duration-700"></div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-xl mx-auto flex flex-col items-center gap-8">
+        
+        <!-- Header Section -->
+        <header class="text-center space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-semibold text-slate-400 mb-2">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+                Regla de los 3 parámetros
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+                Triángulo del Desarrollo
+            </h1>
+            <p class="text-slate-400 text-sm sm:text-base max-w-md mx-auto">
+                Selecciona máximo 2 características para tu proyecto y descubre el resultado inevitable.
+            </p>
+        </header>
+
+        <!-- Toggle Controls Card -->
+        <section class="w-full bg-slate-900/80 backdrop-blur-xl border border-slate-800 p-4 sm:p-6 rounded-3xl shadow-2xl space-y-4">
+            
+            <!-- Option 1: Rápido -->
+            <button id="btn-fast" onclick="toggleOption('fast')" class="group relative w-full flex items-center justify-between p-4 rounded-2xl border border-slate-800 bg-slate-950/50 hover:bg-slate-800/40 transition-all duration-300 cursor-pointer overflow-hidden">
+                <div id="indicator-fast" class="absolute left-0 top-0 bottom-0 w-1.5 bg-slate-800 transition-colors duration-300"></div>
+                <div class="flex items-center gap-4 pl-2">
+                    <div id="icon-bg-fast" class="w-12 h-12 rounded-xl bg-slate-800 text-slate-400 flex items-center justify-center transition-all duration-300 group-hover:scale-105">
+                        <i data-lucide="zap" class="w-6 h-6"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="block text-lg font-bold text-slate-200 group-hover:text-white transition-colors">Rápido</span>
+                        <span class="text-xs text-slate-400">Entrega en tiempo récord</span>
+                    </div>
+                </div>
+                <!-- Custom Switch Element -->
+                <div id="switch-fast" class="w-14 h-8 bg-slate-800 rounded-full p-1 transition-colors duration-300 flex items-center">
+                    <div id="dot-fast" class="w-6 h-6 bg-slate-400 rounded-full transition-transform duration-300 shadow-md"></div>
+                </div>
+            </button>
+
+            <!-- Option 2: Bueno -->
+            <button id="btn-good" onclick="toggleOption('good')" class="group relative w-full flex items-center justify-between p-4 rounded-2xl border border-slate-800 bg-slate-950/50 hover:bg-slate-800/40 transition-all duration-300 cursor-pointer overflow-hidden">
+                <div id="indicator-good" class="absolute left-0 top-0 bottom-0 w-1.5 bg-slate-800 transition-colors duration-300"></div>
+                <div class="flex items-center gap-4 pl-2">
+                    <div id="icon-bg-good" class="w-12 h-12 rounded-xl bg-slate-800 text-slate-400 flex items-center justify-center transition-all duration-300 group-hover:scale-105">
+                        <i data-lucide="award" class="w-6 h-6"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="block text-lg font-bold text-slate-200 group-hover:text-white transition-colors">Bueno</span>
+                        <span class="text-xs text-slate-400">Máxima calidad e innovación</span>
+                    </div>
+                </div>
+                <!-- Custom Switch Element -->
+                <div id="switch-good" class="w-14 h-8 bg-slate-800 rounded-full p-1 transition-colors duration-300 flex items-center">
+                    <div id="dot-good" class="w-6 h-6 bg-slate-400 rounded-full transition-transform duration-300 shadow-md"></div>
+                </div>
+            </button>
+
+            <!-- Option 3: Barato -->
+            <button id="btn-cheap" onclick="toggleOption('cheap')" class="group relative w-full flex items-center justify-between p-4 rounded-2xl border border-slate-800 bg-slate-950/50 hover:bg-slate-800/40 transition-all duration-300 cursor-pointer overflow-hidden">
+                <div id="indicator-cheap" class="absolute left-0 top-0 bottom-0 w-1.5 bg-slate-800 transition-colors duration-300"></div>
+                <div class="flex items-center gap-4 pl-2">
+                    <div id="icon-bg-cheap" class="w-12 h-12 rounded-xl bg-slate-800 text-slate-400 flex items-center justify-center transition-all duration-300 group-hover:scale-105">
+                        <i data-lucide="piggy-bank" class="w-6 h-6"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="block text-lg font-bold text-slate-200 group-hover:text-white transition-colors">Barato</span>
+                        <span class="text-xs text-slate-400">Costo mínimo posible</span>
+                    </div>
+                </div>
+                <!-- Custom Switch Element -->
+                <div id="switch-cheap" class="w-14 h-8 bg-slate-800 rounded-full p-1 transition-colors duration-300 flex items-center">
+                    <div id="dot-cheap" class="w-6 h-6 bg-slate-400 rounded-full transition-transform duration-300 shadow-md"></div>
+                </div>
+            </button>
+
+        </section>
+
+        <!-- Result Card Display -->
+        <section class="w-full">
+            <div id="result-card" class="w-full min-h-[170px] bg-slate-900/40 border border-slate-800/60 rounded-3xl p-6 flex flex-col items-center justify-center text-center transition-all duration-500 relative overflow-hidden">
+                <div id="result-content" class="animate-pop space-y-3">
+                    <div id="result-icon-wrapper" class="mx-auto w-14 h-14 rounded-2xl bg-slate-800 text-slate-400 flex items-center justify-center shadow-lg transition-all duration-300">
+                        <i id="result-icon" data-lucide="mouse-pointer-click" class="w-7 h-7"></i>
+                    </div>
+                    <div>
+                        <h2 id="result-title" class="text-2xl font-bold text-slate-300">Elige 2 opciones</h2>
+                        <p id="result-desc" class="text-sm text-slate-500 mt-1 max-w-xs mx-auto">
+                            Activa dos parámetros arriba para calcular el resultado del desarrollo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer Notice -->
+        <footer class="text-center text-xs text-slate-600">
+            * Al seleccionar una 3ª opción, la primera elegida se desmarca automáticamente.
+        </footer>
+
+    </main>
+
+    <!-- App Logic Script -->
+    <script>
+        // Array to store selected options order (FIFO strategy for auto-unselect when > 2)
+        let selectedOptions = [];
+
+        // Data dictionary for combination outcomes
+        const outcomes = {
+            // 2 Options selected (Keys are sorted alphabetically to avoid order mismatches)
+            'cheap,fast': {
+                title: 'MALO',
+                subtitle: 'Baja calidad',
+                desc: 'Al requerir rapidez y bajo costo, el código resultante será propenso a errores y poco mantenible.',
+                color: 'text-rose-400',
+                border: 'border-rose-500/30',
+                glow: 'rgba(244, 63, 94, 0.25)',
+                bgIcon: 'bg-rose-500/20 text-rose-400',
+                icon: 'skull'
+            },
+            'fast,good': {
+                title: 'CARO',
+                subtitle: 'Alto costo',
+                desc: 'Desarrollar código de excelente calidad en muy poco tiempo requiere más recursos y talento senior.',
+                color: 'text-amber-400',
+                border: 'border-amber-500/30',
+                glow: 'rgba(245, 158, 11, 0.25)',
+                bgIcon: 'bg-amber-500/20 text-amber-400',
+                icon: 'coins'
+            },
+            'cheap,good': {
+                title: 'LENTO',
+                subtitle: 'Gran tiempo de espera',
+                desc: 'Para mantener alta calidad y presupuesto bajo, el desarrollo tomará considerablemente más tiempo.',
+                color: 'text-cyan-400',
+                border: 'border-cyan-500/30',
+                glow: 'rgba(6, 182, 212, 0.25)',
+                bgIcon: 'bg-cyan-500/20 text-cyan-400',
+                icon: 'hourglass'
+            },
+            // 1 Option selected
+            'fast': {
+                title: 'Elige 1 más',
+                subtitle: 'Solo Rápido',
+                desc: '¿Quieres que además sea Bueno o Barato?',
+                color: 'text-slate-300',
+                border: 'border-fast/30',
+                glow: 'rgba(236, 72, 153, 0.15)',
+                bgIcon: 'bg-fast/20 text-fast',
+                icon: 'plus-circle'
+            },
+            'good': {
+                title: 'Elige 1 más',
+                subtitle: 'Solo Bueno',
+                desc: '¿Quieres que además sea Rápido o Barato?',
+                color: 'text-slate-300',
+                border: 'border-good/30',
+                glow: 'rgba(59, 130, 246, 0.15)',
+                bgIcon: 'bg-good/20 text-good',
+                icon: 'plus-circle'
+            },
+            'cheap': {
+                title: 'Elige 1 más',
+                subtitle: 'Solo Barato',
+                desc: '¿Quieres que además sea Rápido o Bueno?',
+                color: 'text-slate-300',
+                border: 'border-cheap/30',
+                glow: 'rgba(16, 185, 129, 0.15)',
+                bgIcon: 'bg-cheap/20 text-cheap',
+                icon: 'plus-circle'
+            },
+            // 0 Options
+            'empty': {
+                title: 'Elige 2 opciones',
+                subtitle: 'Inicio',
+                desc: 'Activa dos parámetros arriba para calcular el resultado del desarrollo.',
+                color: 'text-slate-300',
+                border: 'border-slate-800/60',
+                glow: 'rgba(99, 102, 241, 0.15)',
+                bgIcon: 'bg-slate-800 text-slate-400',
+                icon: 'mouse-pointer-click'
+            }
+        };
+
+        // Theme colors for active toggle buttons
+        const optionStyles = {
+            fast: { activeBg: 'bg-fast', activeBorder: 'border-fast/50', iconBg: 'bg-fast/20 text-fast' },
+            good: { activeBg: 'bg-good', activeBorder: 'border-good/50', iconBg: 'bg-good/20 text-good' },
+            cheap: { activeBg: 'bg-cheap', activeBorder: 'border-cheap/50', iconBg: 'bg-cheap/20 text-cheap' }
+        };
+
+        // Initialize Lucide icons on load
+        window.onload = function() {
+            lucide.createIcons();
+        };
+
+        // Function triggered when clicking an option switch
+        function toggleOption(key) {
+            const index = selectedOptions.indexOf(key);
+
+            if (index > -1) {
+                // If already selected, turn off
+                selectedOptions.splice(index, 1);
+            } else {
+                // If trying to select a 3rd option, remove the oldest selection (FIFO)
+                if (selectedOptions.length >= 2) {
+                    selectedOptions.shift(); 
+                }
+                selectedOptions.push(key);
+            }
+
+            updateUI();
+        }
+
+        // Update visual state of all elements
+        function updateUI() {
+            const allOptions = ['fast', 'good', 'cheap'];
+
+            // 1. Update switches visual state
+            allOptions.forEach(opt => {
+                const isSelected = selectedOptions.includes(opt);
+                const btn = document.getElementById(`btn-${opt}`);
+                const indicator = document.getElementById(`indicator-${opt}`);
+                const iconBg = document.getElementById(`icon-bg-${opt}`);
+                const switchBg = document.getElementById(`switch-${opt}`);
+                const dot = document.getElementById(`dot-${opt}`);
+                const styles = optionStyles[opt];
+
+                if (isSelected) {
+                    btn.classList.add('bg-slate-900', styles.activeBorder);
+                    btn.classList.remove('bg-slate-950/50', 'border-slate-800');
+                    
+                    indicator.className = `absolute left-0 top-0 bottom-0 w-1.5 ${styles.activeBg}`;
+                    iconBg.className = `w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${styles.iconBg}`;
+                    switchBg.className = `w-14 h-8 ${styles.activeBg} rounded-full p-1 transition-colors duration-300 flex items-center justify-end`;
+                    dot.className = "w-6 h-6 bg-white rounded-full transition-transform duration-300 shadow-md";
+                } else {
+                    btn.classList.remove('bg-slate-900', optionStyles.fast.activeBorder, optionStyles.good.activeBorder, optionStyles.cheap.activeBorder);
+                    btn.classList.add('bg-slate-950/50', 'border-slate-800');
+
+                    indicator.className = "absolute left-0 top-0 bottom-0 w-1.5 bg-slate-800 transition-colors duration-300";
+                    iconBg.className = "w-12 h-12 rounded-xl bg-slate-800 text-slate-400 flex items-center justify-center transition-all duration-300";
+                    switchBg.className = "w-14 h-8 bg-slate-800 rounded-full p-1 transition-colors duration-300 flex items-center";
+                    dot.className = "w-6 h-6 bg-slate-400 rounded-full transition-transform duration-300 shadow-md";
+                }
+            });
+
+            // 2. Determine outcome key
+            let outcomeKey = 'empty';
+            if (selectedOptions.length === 1) {
+                outcomeKey = selectedOptions[0];
+            } else if (selectedOptions.length === 2) {
+                // Sort keys alphabetically so ['good', 'cheap'] becomes 'cheap,good' matching the outcome key
+                outcomeKey = [...selectedOptions].sort().join(',');
+            }
+
+            const data = outcomes[outcomeKey] || outcomes['empty'];
+
+            // 3. Update result display with re-triggered pop animation
+            const card = document.getElementById('result-card');
+            const content = document.getElementById('result-content');
+            const titleEl = document.getElementById('result-title');
+            const descEl = document.getElementById('result-desc');
+            const iconWrapper = document.getElementById('result-icon-wrapper');
+            const iconEl = document.getElementById('result-icon');
+            const bgGlow = document.getElementById('bg-glow-1');
+
+            // Reset animation
+            content.classList.remove('animate-pop');
+            void content.offsetWidth; // Trigger reflow
+            content.classList.add('animate-pop');
+
+            // Update text content
+            titleEl.textContent = data.title;
+            titleEl.className = `text-3xl font-extrabold tracking-tight ${data.color}`;
+            descEl.textContent = data.desc;
+
+            // Update icon
+            iconWrapper.className = `mx-auto w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg transition-all duration-300 ${data.bgIcon}`;
+            iconEl.setAttribute('data-lucide', data.icon);
+
+            // Update card glow & border
+            card.className = `w-full min-h-[170px] bg-slate-900/60 border ${data.border} rounded-3xl p-6 flex flex-col items-center justify-center text-center transition-all duration-500 relative overflow-hidden`;
+            bgGlow.style.backgroundColor = data.glow;
+
+            // Re-render Lucide icons for dynamically changed icon
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
